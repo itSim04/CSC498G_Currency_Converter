@@ -166,22 +166,21 @@ public class ConverterActivity extends AppCompatActivity {
 
         // Convert from Currency 1 to Currency 2
         double cur1_to_dollars = toDollar(amount, currency1);
-        double dollars_to_cur2 = fromDollar(cur1_to_dollars, currency2);
-        return dollars_to_cur2;
+        return fromDollar(cur1_to_dollars, currency2);
 
     }
 
     private double toDollar(double amount, String currency1) {
 
         // Convert from a certain currency to Dollars
-        return amount / currencies.get(currency1);
+        return amount / currencies.getOrDefault(currency1, 1.0);
 
     }
 
     private double fromDollar(double amount, String currency2) {
 
         // Convert from Dollars to a certain currency
-        return amount * currencies.get(currency2);
+        return amount * currencies.getOrDefault(currency2, 0.0);
     }
 
     public void updatePreview() {

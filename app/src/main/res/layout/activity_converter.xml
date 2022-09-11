@@ -11,30 +11,38 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:hint="Value 1"
         android:inputType="numberDecimal"
+        android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/currencyOneSpin"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.23000002" />
+        app:layout_constraintVertical_bias="0.23"
+        android:importantForAutofill="no" />
 
     <Spinner
         android:id="@+id/currencyOneSpin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:entries="@array/currencies"
+        android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/valueOneEdit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.23000002" />
-
+        app:layout_constraintVertical_bias="0.23"
+        tools:ignore="DuplicateSpeakableTextCheck" />
     <EditText
         android:id="@+id/valueTwoEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:hint="Value 2"
+        android:importantForAutofill="no"
         android:inputType="numberDecimal"
+        android:minHeight="48dp"
+        android:textColorHint="#757575"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/currencyTwoSpin"
@@ -46,6 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:entries="@array/currencies"
+        android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/valueTwoEdit"
         app:layout_constraintStart_toStartOf="parent"
