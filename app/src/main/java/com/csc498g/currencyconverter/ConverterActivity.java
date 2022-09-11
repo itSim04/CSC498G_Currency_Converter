@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -64,7 +66,6 @@ public class ConverterActivity extends AppCompatActivity {
                 }
             }
         });
-
         value_two_edit_text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -97,6 +98,19 @@ public class ConverterActivity extends AppCompatActivity {
                 }
             }
         });
+        currency_one_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                updatePreview();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+
+        });
+
 
     }
 
@@ -132,7 +146,7 @@ public class ConverterActivity extends AppCompatActivity {
         String currency2 = currency_two_spinner.getSelectedItem().toString();
         double conversion_result = convert(1.0, currency1, currency2);
 
-        currency_preview.setText(String.format("1 %s equals %d %s", currency1, conversion_result, currency2));
+        currency_preview.setText(String.format("1 %s equals %f %s", currency1, conversion_result, currency2));
 
     }
 
