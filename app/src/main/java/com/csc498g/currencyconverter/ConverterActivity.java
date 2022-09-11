@@ -3,6 +3,10 @@ package com.csc498g.currencyconverter;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -20,9 +24,37 @@ public class ConverterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_converter);
+
+        EditText value_one_edit_text = findViewById(R.id.valueOneEdit);
+        EditText value_two_edit_text = findViewById(R.id.valueTwoEdit);
+        Spinner currency_one_spinner = findViewById(R.id.currencyOneSpin);
+        Spinner currency_two_spinner = findViewById(R.id.currencyTwoSpin);
+
+        value_one_edit_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                String currency_1 = currency_one_spinner.getSelectedItem().toString();
+                String currency_2 = currency_two_spinner.getSelectedItem().toString();
+                double converted_result = convert( Double.parseDouble(value_one_edit_text.getText().toString()), currency_1, currency_2);
+                value_two_edit_text.setText(converted_result + "");
+
+            }
+        });
+
     }
 
-    public double convert(float amount, String currency1, String currency2) {
+    public double convert(double amount, String currency1, String currency2) {
 
         // Convert from Currency 1 to Currency 2
         double cur1_to_dollars = toDollar(amount, currency1);
