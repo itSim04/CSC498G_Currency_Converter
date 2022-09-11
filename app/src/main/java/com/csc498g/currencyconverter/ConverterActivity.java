@@ -100,9 +100,26 @@ public class ConverterActivity extends AppCompatActivity {
                 }
             }
         });
-        currency_one_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        currency_two_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+
+                if(!in_progress) {
+
+                    in_progress = true;
+                    String currency_1 = currency_one_spinner.getSelectedItem().toString();
+                    String currency_2 = currency_two_spinner.getSelectedItem().toString();
+                    String value = value_one_edit_text.getText().toString();
+
+                    double converted_result = 0;
+                    try {
+                        converted_result = convert(!value.equals("") ? Double.parseDouble(value) : 0, currency_1, currency_2);
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(getApplicationContext(), "Invalid Input", Toast.LENGTH_SHORT).show();
+                    }
+                    value_two_edit_text.setText(conversion_format.format(converted_result));
+                    in_progress = false;
+                }
                 updatePreview();
             }
 
@@ -112,9 +129,26 @@ public class ConverterActivity extends AppCompatActivity {
             }
 
         });
-        currency_two_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        currency_one_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+
+                if(!in_progress) {
+
+                    in_progress = true;
+                    String currency_1 = currency_two_spinner.getSelectedItem().toString();
+                    String currency_2 = currency_one_spinner.getSelectedItem().toString();
+                    String value = value_two_edit_text.getText().toString();
+
+                    double converted_result = 0;
+                    try {
+                        converted_result = convert(!value.equals("") ? Double.parseDouble(value) : 0, currency_1, currency_2);
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(getApplicationContext(), "Invalid Input", Toast.LENGTH_SHORT).show();
+                    }
+                    value_one_edit_text.setText(conversion_format.format(converted_result));
+                    in_progress = false;
+                }
                 updatePreview();
             }
 
