@@ -46,7 +46,9 @@ public class ConverterActivity extends AppCompatActivity {
 
                 String currency_1 = currency_one_spinner.getSelectedItem().toString();
                 String currency_2 = currency_two_spinner.getSelectedItem().toString();
-                double converted_result = convert( Double.parseDouble(value_one_edit_text.getText().toString()), currency_1, currency_2);
+                String value = value_one_edit_text.getText().toString();
+
+                double converted_result = convert( !value.equals("") ? Double.parseDouble(value) : 0, currency_1, currency_2);
                 value_two_edit_text.setText(converted_result + "");
 
             }
