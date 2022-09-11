@@ -26,7 +26,6 @@ public class LoginActivity extends AppCompatActivity {
 
         if(username_value.equals("user.leb") && password_value.equals(("123456"))) {
 
-            Toast.makeText(getApplicationContext(), "Login", Toast.LENGTH_SHORT).show();
             Intent logger = new Intent(getApplicationContext(), ConverterActivity.class);
             startActivity(logger);
 
