@@ -52,7 +52,12 @@ public class ConverterActivity extends AppCompatActivity {
                     String currency_2 = currency_two_spinner.getSelectedItem().toString();
                     String value = value_one_edit_text.getText().toString();
 
-                    double converted_result = convert(!value.equals("") ? Double.parseDouble(value) : 0, currency_1, currency_2);
+                    double converted_result = 0;
+                    try {
+                        converted_result = convert(!value.equals("") ? Double.parseDouble(value) : 0, currency_1, currency_2);
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(getApplicationContext(), "Invalid Input", Toast.LENGTH_SHORT).show();
+                    }
                     value_two_edit_text.setText(converted_result + "");
                     in_progress = false;
                 }
@@ -80,7 +85,12 @@ public class ConverterActivity extends AppCompatActivity {
                     String currency_2 = currency_one_spinner.getSelectedItem().toString();
                     String value = value_two_edit_text.getText().toString();
 
-                    double converted_result = convert(!value.equals("") ? Double.parseDouble(value) : 0, currency_1, currency_2);
+                    double converted_result = 0;
+                    try {
+                        converted_result = convert(!value.equals("") ? Double.parseDouble(value) : 0, currency_1, currency_2);
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(getApplicationContext(), "Invalid Input", Toast.LENGTH_SHORT).show();
+                    }
                     value_one_edit_text.setText(converted_result + "");
                     in_progress = false;
                 }
