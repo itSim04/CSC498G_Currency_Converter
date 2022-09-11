@@ -25,7 +25,6 @@ public class ConverterActivity extends AppCompatActivity {
     public double convert(float amount, String currency1, String currency2) {
 
         // Convert from Currency 1 to Currency 2
-
         double cur1_to_dollars = toDollar(amount, currency1);
         double dollars_to_cur2 = fromDollar(cur1_to_dollars, currency2);
         return dollars_to_cur2;
@@ -42,8 +41,7 @@ public class ConverterActivity extends AppCompatActivity {
     private double fromDollar(double amount, String currency2) {
 
         // Convert from Dollars to a certain currency
-
-        return 0;
+        return amount * currencies.get(currency2);
     }
 
 }
