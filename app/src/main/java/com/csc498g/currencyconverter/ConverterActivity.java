@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -119,6 +120,20 @@ public class ConverterActivity extends AppCompatActivity {
 
         // Convert from Dollars to a certain currency
         return amount * currencies.get(currency2);
+    }
+
+    public void updatePreview() {
+
+        TextView currency_preview = findViewById(R.id.conversionPreviewText);
+        Spinner currency_one_spinner = findViewById(R.id.currencyOneSpin);
+        Spinner currency_two_spinner = findViewById(R.id.currencyTwoSpin);
+
+        String currency1 = currency_one_spinner.getSelectedItem().toString();
+        String currency2 = currency_two_spinner.getSelectedItem().toString();
+        double conversion_result = convert(1.0, currency1, currency2);
+
+        currency_preview.setText(String.format("1 %s equals %d %s", currency1, conversion_result, currency2));
+
     }
 
 }
