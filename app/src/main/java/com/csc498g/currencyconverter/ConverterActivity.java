@@ -12,11 +12,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 
 public class ConverterActivity extends AppCompatActivity {
 
     boolean in_progress = false;
+    final DecimalFormat conversion_format = new DecimalFormat("#.##########");
     static final HashMap<String, Double> currencies = new HashMap<>() {{
 
         put("USD", 1.0);
@@ -61,7 +63,7 @@ public class ConverterActivity extends AppCompatActivity {
                     } catch (NumberFormatException e) {
                         Toast.makeText(getApplicationContext(), "Invalid Input", Toast.LENGTH_SHORT).show();
                     }
-                    value_two_edit_text.setText(converted_result + "");
+                    value_two_edit_text.setText(conversion_format.format(converted_result));
                     in_progress = false;
                 }
             }
@@ -93,12 +95,24 @@ public class ConverterActivity extends AppCompatActivity {
                     } catch (NumberFormatException e) {
                         Toast.makeText(getApplicationContext(), "Invalid Input", Toast.LENGTH_SHORT).show();
                     }
-                    value_one_edit_text.setText(converted_result + "");
+                    value_one_edit_text.setText(conversion_format.format(converted_result));
                     in_progress = false;
                 }
             }
         });
         currency_one_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                updatePreview();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+
+        });
+        currency_two_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 updatePreview();
@@ -146,7 +160,8 @@ public class ConverterActivity extends AppCompatActivity {
         String currency2 = currency_two_spinner.getSelectedItem().toString();
         double conversion_result = convert(1.0, currency1, currency2);
 
-        currency_preview.setText(String.format("1 %s equals %f %s", currency1, conversion_result, currency2));
+
+        currency_preview.setText(String.format("1 %s equals %s %s", currency1, conversion_format.format(conversion_result), currency2));
 
     }
 
