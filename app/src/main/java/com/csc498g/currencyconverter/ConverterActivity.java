@@ -13,6 +13,7 @@ import java.util.HashMap;
 
 public class ConverterActivity extends AppCompatActivity {
 
+    boolean in_progress = false;
     static final HashMap<String, Double> currencies = new HashMap<>() {{
 
         put("USD", 1.0);
@@ -44,13 +45,45 @@ public class ConverterActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
 
-                String currency_1 = currency_one_spinner.getSelectedItem().toString();
-                String currency_2 = currency_two_spinner.getSelectedItem().toString();
-                String value = value_one_edit_text.getText().toString();
+                if(!in_progress) {
 
-                double converted_result = convert( !value.equals("") ? Double.parseDouble(value) : 0, currency_1, currency_2);
-                value_two_edit_text.setText(converted_result + "");
+                    in_progress = true;
+                    String currency_1 = currency_one_spinner.getSelectedItem().toString();
+                    String currency_2 = currency_two_spinner.getSelectedItem().toString();
+                    String value = value_one_edit_text.getText().toString();
 
+                    double converted_result = convert(!value.equals("") ? Double.parseDouble(value) : 0, currency_1, currency_2);
+                    value_two_edit_text.setText(converted_result + "");
+                    in_progress = false;
+                }
+            }
+        });
+
+        value_two_edit_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if(!in_progress) {
+
+                    in_progress = true;
+                    String currency_1 = currency_two_spinner.getSelectedItem().toString();
+                    String currency_2 = currency_one_spinner.getSelectedItem().toString();
+                    String value = value_two_edit_text.getText().toString();
+
+                    double converted_result = convert(!value.equals("") ? Double.parseDouble(value) : 0, currency_1, currency_2);
+                    value_one_edit_text.setText(converted_result + "");
+                    in_progress = false;
+                }
             }
         });
 
