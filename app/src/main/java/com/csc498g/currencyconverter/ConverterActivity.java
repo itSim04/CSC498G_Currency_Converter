@@ -20,4 +20,27 @@ public class ConverterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_converter);
     }
+
+    public int convert(float amount, String currency1, String currency2) {
+
+        // Convert from Currency 1 to Currency 2
+
+        int cur1_to_dollars = toDollar(amount, currency1);
+        int dollars_to_cur2 = fromDollar(cur1_to_dollars, currency2);
+        return dollars_to_cur2;
+
+    }
+
+    private int fromDollar(float amount, String currency2) {
+
+        // Convert from Dollars to a certain currency
+        return 0;
+    }
+
+    private int toDollar(float amount, String currency1) {
+
+        // Convert from a certain currency to Dollars
+        return 0;
+        
+    }
 }
