@@ -23,6 +23,16 @@ public class LoginActivity extends AppCompatActivity {
         String username_value = username_edit_text.getText().toString();
         String password_value = password_edit_text.getText().toString();
 
+        if(username_value.equals("user.leb") && password_value.equals(("123456"))) {
+
+            Toast.makeText(getApplicationContext(), "Login", Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT).show();
+
+        }
+
 
     }
 }
