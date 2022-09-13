@@ -17,7 +17,12 @@ import java.util.HashMap;
 
 public class ConverterActivity extends AppCompatActivity {
 
+    EditText value_one_edit_text;
+    EditText value_two_edit_text;
+    Spinner currency_one_spinner;
+    Spinner currency_two_spinner;
     boolean in_progress = false;
+
     final DecimalFormat conversion_format = new DecimalFormat("#.##########");
     static final HashMap<String, Double> currencies = new HashMap<>() {{
 
@@ -30,11 +35,11 @@ public class ConverterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_converter);
+        value_one_edit_text = findViewById(R.id.valueOneEdit);
+        value_two_edit_text = findViewById(R.id.valueTwoEdit);
+        currency_one_spinner = findViewById(R.id.currencyOneSpin);
+        currency_two_spinner = findViewById(R.id.currencyTwoSpin);
 
-        EditText value_one_edit_text = findViewById(R.id.valueOneEdit);
-        EditText value_two_edit_text = findViewById(R.id.valueTwoEdit);
-        Spinner currency_one_spinner = findViewById(R.id.currencyOneSpin);
-        Spinner currency_two_spinner = findViewById(R.id.currencyTwoSpin);
 
         value_one_edit_text.addTextChangedListener(new TextWatcher() {
             @Override
@@ -50,22 +55,7 @@ public class ConverterActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
 
-                if(!in_progress) {
-
-                    in_progress = true;
-                    String currency_1 = currency_one_spinner.getSelectedItem().toString();
-                    String currency_2 = currency_two_spinner.getSelectedItem().toString();
-                    String value = value_one_edit_text.getText().toString();
-
-                    double converted_result = 0;
-                    try {
-                        converted_result = convert(!value.equals("") ? Double.parseDouble(value) : 0, currency_1, currency_2);
-                    } catch (NumberFormatException e) {
-                        Toast.makeText(getApplicationContext(), "Invalid Input", Toast.LENGTH_SHORT).show();
-                    }
-                    value_two_edit_text.setText(conversion_format.format(converted_result));
-                    in_progress = false;
-                }
+                handleConversion(true);
             }
         });
         value_two_edit_text.addTextChangedListener(new TextWatcher() {
@@ -82,44 +72,15 @@ public class ConverterActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
 
-                if(!in_progress) {
+                handleConversion(false);
 
-                    in_progress = true;
-                    String currency_1 = currency_two_spinner.getSelectedItem().toString();
-                    String currency_2 = currency_one_spinner.getSelectedItem().toString();
-                    String value = value_two_edit_text.getText().toString();
-
-                    double converted_result = 0;
-                    try {
-                        converted_result = convert(!value.equals("") ? Double.parseDouble(value) : 0, currency_1, currency_2);
-                    } catch (NumberFormatException e) {
-                        Toast.makeText(getApplicationContext(), "Invalid Input", Toast.LENGTH_SHORT).show();
-                    }
-                    value_one_edit_text.setText(conversion_format.format(converted_result));
-                    in_progress = false;
-                }
             }
         });
         currency_two_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
-                if(!in_progress) {
-
-                    in_progress = true;
-                    String currency_1 = currency_one_spinner.getSelectedItem().toString();
-                    String currency_2 = currency_two_spinner.getSelectedItem().toString();
-                    String value = value_one_edit_text.getText().toString();
-
-                    double converted_result = 0;
-                    try {
-                        converted_result = convert(!value.equals("") ? Double.parseDouble(value) : 0, currency_1, currency_2);
-                    } catch (NumberFormatException e) {
-                        Toast.makeText(getApplicationContext(), "Invalid Input", Toast.LENGTH_SHORT).show();
-                    }
-                    value_two_edit_text.setText(conversion_format.format(converted_result));
-                    in_progress = false;
-                }
+                handleConversion(true);
                 updatePreview();
             }
 
@@ -133,23 +94,9 @@ public class ConverterActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
-                if(!in_progress) {
-
-                    in_progress = true;
-                    String currency_1 = currency_two_spinner.getSelectedItem().toString();
-                    String currency_2 = currency_one_spinner.getSelectedItem().toString();
-                    String value = value_two_edit_text.getText().toString();
-
-                    double converted_result = 0;
-                    try {
-                        converted_result = convert(!value.equals("") ? Double.parseDouble(value) : 0, currency_1, currency_2);
-                    } catch (NumberFormatException e) {
-                        Toast.makeText(getApplicationContext(), "Invalid Input", Toast.LENGTH_SHORT).show();
-                    }
-                    value_one_edit_text.setText(conversion_format.format(converted_result));
-                    in_progress = false;
-                }
+                handleConversion(false);
                 updatePreview();
+
             }
 
             @Override
@@ -159,6 +106,31 @@ public class ConverterActivity extends AppCompatActivity {
 
         });
 
+
+    }
+
+    public void handleConversion(boolean forward) {
+
+        if(!in_progress) {
+
+            in_progress = true;
+            String currency_1 = currency_one_spinner.getSelectedItem().toString();
+            String currency_2 = currency_two_spinner.getSelectedItem().toString();
+            String value = forward ? value_one_edit_text.getText().toString() : value_two_edit_text.getText().toString();
+
+            double converted_result = 0;
+            try {
+                converted_result = convert(!value.equals("") ? Double.parseDouble(value) : 0, forward ? currency_1 : currency_2, forward ? currency_2 : currency_1);
+            } catch (NumberFormatException e) {
+                Toast.makeText(getApplicationContext(), "Invalid Input", Toast.LENGTH_SHORT).show();
+            }
+            if(forward) {
+                value_two_edit_text.setText(conversion_format.format(converted_result));
+            } else {
+                value_one_edit_text.setText(conversion_format.format(converted_result));
+            }
+            in_progress = false;
+        }
 
     }
 
@@ -186,8 +158,6 @@ public class ConverterActivity extends AppCompatActivity {
     public void updatePreview() {
 
         TextView currency_preview = findViewById(R.id.conversionPreviewText);
-        Spinner currency_one_spinner = findViewById(R.id.currencyOneSpin);
-        Spinner currency_two_spinner = findViewById(R.id.currencyTwoSpin);
 
         String currency1 = currency_one_spinner.getSelectedItem().toString();
         String currency2 = currency_two_spinner.getSelectedItem().toString();
