@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.Optional;
 
 public class ConverterActivity extends AppCompatActivity {
 
@@ -21,7 +22,7 @@ public class ConverterActivity extends AppCompatActivity {
     EditText value_two_edit_text;
     Spinner currency_one_spinner;
     Spinner currency_two_spinner;
-    boolean in_progress = false;
+    boolean in_progress;
 
     final DecimalFormat conversion_format = new DecimalFormat("#.##########");
     static final HashMap<String, Double> currencies = new HashMap<>() {{
@@ -145,14 +146,14 @@ public class ConverterActivity extends AppCompatActivity {
     private double toDollar(double amount, String currency1) {
 
         // Convert from a certain currency to Dollars
-        return amount / currencies.getOrDefault(currency1, 1.0);
+        return amount / Optional.ofNullable(currencies.get(currency1)).orElse(1.0);
 
     }
 
     private double fromDollar(double amount, String currency2) {
 
         // Convert from Dollars to a certain currency
-        return amount * currencies.getOrDefault(currency2, 0.0);
+        return amount * Optional.ofNullable(currencies.get(currency2)).orElse(1.0);
     }
 
     public void updatePreview() {
